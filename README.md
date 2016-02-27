@@ -1,2 +1,2 @@
 # waves
-a game called
+a game called waves (following youtube tutorial)
