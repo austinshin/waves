@@ -1,29 +1,35 @@
+package Game;
+
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
-/**
- * Created by Link on 2/27/2016.
+/*
+ @author: Austin Shin
  */
 public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9; // 16:9 aspect ratio.
     private Thread thread;
     private boolean running = false;
-    private Handler handler;
 
     private Random r;
+    private Handler handler;
 
+
+
+    /*
+    Game constructor which includes handler, window, and adds player object.
+     */
     public Game() {
-        new Window(WIDTH, HEIGHT, "Waves", this);
-
         handler = new Handler();
-        handler.addObject(new Player(100, 100, ID.Player));
+        this.addKeyListener(new KeyInput(handler));
+        new Window(WIDTH, HEIGHT, "Waves", this);
         r = new Random();
-        for(int i = 0; i < 50; i++) {
-            handler.addObject(new Player(0, 0, ID.Player));
-        }
+
+        handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player)); // this spawns the player in the middle of the screen
+        handler.addObject(new Player(WIDTH / 2 + 64, HEIGHT / 2 + 64, ID.Player2));
     }
 
     public synchronized void start() {
@@ -50,7 +56,7 @@ public class Game extends Canvas implements Runnable {
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while(running) {
+        while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -58,7 +64,7 @@ public class Game extends Canvas implements Runnable {
                 tick();
                 delta--;
             }
-            if(running)
+            if (running)
                 render();
             frames++;
             if (System.currentTimeMillis() - timer > 1000) {
@@ -71,6 +77,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
+
         handler.tick();
     }
 
@@ -93,6 +100,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public static void main(String[] args){
+
         new Game();
     }
 

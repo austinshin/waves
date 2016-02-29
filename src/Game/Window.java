@@ -1,6 +1,5 @@
-/**
- * Created by Link on 2/27/2016.
- */
+package Game;
+
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Dimension;

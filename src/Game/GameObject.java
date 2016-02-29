@@ -1,7 +1,7 @@
+package Game;
+
 import java.awt.Graphics;
-/**
- * Created by Link on 2/27/2016.
- */
+
 public abstract class GameObject {
 
     // everything will ultimately be a game object.

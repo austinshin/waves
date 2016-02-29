@@ -1,7 +1,9 @@
+package Game;
+
 import java.awt.Graphics;
 import java.util.LinkedList;
-/**
- * Created by Link on 2/27/2016.
+/*
+ @author: Austin Shin
  */
 public class Handler {
 
