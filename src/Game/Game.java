@@ -16,8 +16,7 @@ public class Game extends Canvas implements Runnable {
 
     private Random r;
     private Handler handler;
-
-
+    private HUD hud;
 
     /*
     Game constructor which includes handler, window, and adds player object.
@@ -26,10 +25,15 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
         new Window(WIDTH, HEIGHT, "Waves", this);
+
+        hud = new HUD();
+
         r = new Random();
 
         handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player)); // this spawns the player in the middle of the screen
-        handler.addObject(new Player(WIDTH / 2 + 64, HEIGHT / 2 + 64, ID.Player2));
+        for(int i = 0; i < 20; i++) {
+            handler.addObject(new BasicEnemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.BasicEnemy));
+        }
     }
 
     public synchronized void start() {
@@ -49,6 +53,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run() {
+        this.requestFocus();
         // game loop goes here
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
@@ -79,6 +84,7 @@ public class Game extends Canvas implements Runnable {
     private void tick() {
 
         handler.tick();
+        hud.tick();
     }
 
     private void render() {
@@ -95,8 +101,20 @@ public class Game extends Canvas implements Runnable {
 
         handler.render(g);
 
+        hud.render(g); //this placement is important.
+
         g.dispose();
         bs.show();
+    }
+
+    public static int clamp(int var, int min, int max) {
+        if (var >= max) {
+            return var = max;
+        } else if (var <= min) {
+            return var = min;
+        } else {
+            return var;
+        }
     }
 
     public static void main(String[] args){
